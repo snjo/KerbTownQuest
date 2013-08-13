@@ -54,17 +54,25 @@ namespace KerbTownQuest.GUI
         /// <param name="ID">If you have more than one of a module on a part the ID should be unique to prevent window stealing and overlap. Should be passed on from the cfg.</param>
         /// <param name="Windowlayer">the GUI windows layer. Should be unique for each class, possibly with a span of numbers reserved for duplicate modules. the final layer used is layer + ID</param>
         /// <param name="windowDimensions">Left, Top, Width and Height of the GUI window. These are not static, but changed by dragging the window and by resizing functions.</param>
-        public GUIPopup(string module, int ID, int Windowlayer, Rect windowDimensions, string windowName, PopupElement defaultElement)
+        public GUIPopup(int ID, int Windowlayer, Rect windowDimensions, string windowName, PopupElement defaultElement)
         {
-            elementList.Add(defaultElement);
-            //parentPart = part;
-            moduleName = module;
+            elementList.Add(defaultElement);            
+            //moduleName = module;
             moduleID = ID;
             GUIlayer = Windowlayer;
             windowRect = windowDimensions;
             windowTitle = windowName;
-            windowRect.y += (moduleID * windowRect.height) + 20;
-            //run = function;
+            windowRect.y += (moduleID * windowRect.height) + 20;            
+        }
+
+        public GUIPopup(int ID, int Windowlayer, Rect windowDimensions, string windowName)
+        {                        
+            //moduleName = module;
+            moduleID = ID;
+            GUIlayer = Windowlayer;
+            windowRect = windowDimensions;
+            windowTitle = windowName;
+            windowRect.y += (moduleID * windowRect.height) + 20;            
         }
 
         private void drawElement(PopupElement element)

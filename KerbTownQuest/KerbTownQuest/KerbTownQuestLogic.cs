@@ -16,6 +16,7 @@ namespace KerbTownQuest
         public static ItemLibrary itemLibrary = new ItemLibrary();
         public static QuestLog questLog = new QuestLog();
         public static KTKerbal activeKerbal;
+        public HotBar hotBar = new HotBar();
         public InventoryGUI inventoryGUI = new InventoryGUI();
         private Vessel activeVessel;
         private bool activeVesselIsKerbal;
@@ -49,13 +50,16 @@ namespace KerbTownQuest
                         activeKerbal = kerbalRoster.AddbyName(kerbalName);
                     }
                 }
-                //Debug.Log("FSHPki: Vessel is Kerbal: " + activeVesselIsKerbal);
+                Debug.Log("KTQlogic: Vessel is Kerbal: " + activeVesselIsKerbal);
             }
         }
 
         public void Start()
         {
+            //Debug.Log("KerbTownQuestLogic: Start");
             inventoryGUI.OnStart();
+            hotBar.OnStart();
+            hotBar.toggleInventory = inventoryGUI.toggleInventory;
         }
 
         public void FixedUpdate()
@@ -68,7 +72,12 @@ namespace KerbTownQuest
        
         public void OnGUI()
         {
-            inventoryGUI.OnGUI();
+            if (activeVesselIsKerbal)
+            {
+                inventoryGUI.OnGUI();
+                hotBar.OnGUI();
+                //Debug.Log("drawing inv and hotbar");
+            }
         }
     }
 }

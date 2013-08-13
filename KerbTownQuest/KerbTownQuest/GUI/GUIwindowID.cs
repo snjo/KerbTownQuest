@@ -14,6 +14,8 @@ namespace KerbTownQuest.GUI
         public static int questLog = 5603;
         public static int dialogue = 5604;
         public static int characterStats = 5605;
+        public static int hotBar = 5606;
+
         public static int firespitter = 5879;
     }
 }

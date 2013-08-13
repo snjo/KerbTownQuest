@@ -48,6 +48,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HotBar.cs" />
     <Compile Include="Inventory\Backpack.cs" />
     <Compile Include="Inventory\BackPackItem.cs" />
     <Compile Include="GUI\GUIPopup.cs" />
@@ -62,7 +63,7 @@
     <Compile Include="Quest\Quest.cs" />
     <Compile Include="Quest\QuestGoal.cs" />
     <Compile Include="Quest\QuestLog.cs" />
-    <Compile Include="Util\FSHPMouseEventHandler.cs" />
+    <Compile Include="Util\MouseEventHandler.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
