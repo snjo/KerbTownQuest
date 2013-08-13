@@ -8,6 +8,6 @@ namespace KerbTownQuest
 {
     public class KTQlogic
     {
-
+        public string name;
     }
 }
