@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace KerbTownQuest.GUI
 {
-    class GUIwindowID
+    public class GUIwindowID
     {
         public static int housingProgram = 5600;
         public static int gasPump = 5601;

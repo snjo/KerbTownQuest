@@ -53,20 +53,22 @@ namespace KerbTownQuest
             }
         }
 
+        public void Start()
+        {
+            inventoryGUI.OnStart();
+        }
+
         public void FixedUpdate()
         {
             if (HighLogic.LoadedSceneIsFlight)
             {
-                updateActiveVessel(); // updates the reference in activeVessel, and checks whether it's a kerbal or a craft
-                
+                updateActiveVessel(); // updates the reference in activeVessel, and checks whether it's a kerbal or a craft                
             }
         }
-
-        
-
+       
         public void OnGUI()
         {
-
+            inventoryGUI.OnGUI();
         }
     }
 }

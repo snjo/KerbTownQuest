@@ -58,7 +58,6 @@
     <Compile Include="Inventory\ItemLibrary.cs" />
     <Compile Include="KTKerbal.cs" />
     <Compile Include="KTKerbalRoster.cs" />
-    <Compile Include="KTQlogic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Quest\Quest.cs" />
     <Compile Include="Quest\QuestGoal.cs" />

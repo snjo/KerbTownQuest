@@ -22,18 +22,11 @@ namespace KerbTownQuest.Inventory
 
         public void OnStart()
         {
-            itemElements.Add( new PopupElement("Fake beard", new PopupButton("X", 15f, deleteItem, "fakeBeard")));
-            popup = new GUIPopup("InventoryGUI", 0, GUIwindowID.inventory, windowRect, "Inventory", itemElements[0]);
-        }
-
-        public void OnUpdate()
-        {
-
-        }
-
-        public void OnFixedUpdate()
-        {
-
+            if (HighLogic.LoadedSceneIsFlight)
+            {
+                itemElements.Add(new PopupElement("Fake beard", new PopupButton("X", 15f, deleteItem, "fakeBeard")));
+                popup = new GUIPopup("InventoryGUI", 0, GUIwindowID.inventory, windowRect, "Inventory", itemElements[0]);
+            }
         }
 
         public void OnGUI()
