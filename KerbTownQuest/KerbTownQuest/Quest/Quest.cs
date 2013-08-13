@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FShousingProgram
+namespace KerbTownQuest.Quest
 {
     /// <summary>
     /// A single Quest for the QuestLog. Has a list of QuestGoals to complete to finish the mission.

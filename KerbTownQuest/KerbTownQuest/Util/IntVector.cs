@@ -5,12 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace FShousingProgram
+namespace KerbTownQuest.Util
 {
     public struct IntVector2
     {
         int x;
-        int y;
+        int y;        
 
         public IntVector2(int _x, int _y)
         {

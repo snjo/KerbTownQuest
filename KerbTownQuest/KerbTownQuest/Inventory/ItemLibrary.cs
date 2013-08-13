@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FShousingProgram
+namespace KerbTownQuest.Inventory
 {
     public class ItemLibrary // defines items used in quests or just lying around, should be loaded from an xml/cfg file
     {

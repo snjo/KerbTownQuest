@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FShousingProgram
+namespace KerbTownQuest.Quest
 {
     /// <summary>
     /// Holds all possible quests. The player will only see the Quests with the correct Quest.QuestStatus.

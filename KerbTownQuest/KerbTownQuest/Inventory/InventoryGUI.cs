@@ -4,15 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using KerbTownQuest.GUI;
 
-namespace FShousingProgram
+namespace KerbTownQuest.Inventory
 {
     public class InventoryGUI
     {
-        private FSHPGUIPopup popup;
+        private GUI.GUIPopup popup;
         public Rect windowRect = new Rect(10f, 100f, 300f, 500f);
         public KTKerbal activeKerbal;
-        private List<FSHPPopupElement> itemElements = new List<FSHPPopupElement>();
+        private List<GUI.PopupElement> itemElements = new List<PopupElement>();
 
         public void deleteItem(string itemName)
         {
@@ -21,8 +22,8 @@ namespace FShousingProgram
 
         public void OnStart()
         {
-            itemElements.Add( new FSHPPopupElement("Fake beard", new FSHPPopupButton("X", 15f, deleteItem, "fakeBeard")));
-            popup = new FSHPGUIPopup("InventoryGUI", 0, FSHPGUIwindowID.inventory, windowRect, "Inventory", itemElements[0]);
+            itemElements.Add( new PopupElement("Fake beard", new PopupButton("X", 15f, deleteItem, "fakeBeard")));
+            popup = new GUIPopup("InventoryGUI", 0, GUIwindowID.inventory, windowRect, "Inventory", itemElements[0]);
         }
 
         public void OnUpdate()

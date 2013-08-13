@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KerbTownQuest.Inventory;
 
-namespace FShousingProgram
+namespace KerbTownQuest
 {
     public class KTKerbal //: Kerbal //extends the stock game's Kerbal
     {

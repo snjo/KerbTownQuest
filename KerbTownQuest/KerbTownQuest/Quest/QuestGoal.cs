@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace FShousingProgram
+namespace KerbTownQuest.Quest
 {
     /// <summary>
     /// A sub goal of a Quest. A quest must have at least one to be completeable through normal means

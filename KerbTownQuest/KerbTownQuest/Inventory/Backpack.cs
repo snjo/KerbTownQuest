@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KerbTownQuest.Util;
 
-namespace FShousingProgram
+namespace KerbTownQuest.Inventory
 {
     public class Backpack // a list of backpack items
     {

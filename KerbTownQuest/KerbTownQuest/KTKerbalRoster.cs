@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FShousingProgram
+namespace KerbTownQuest
 {
     public class KTKerbalRoster
     {

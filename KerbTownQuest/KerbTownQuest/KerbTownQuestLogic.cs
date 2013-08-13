@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using KerbTownQuest.Inventory;
+using KerbTownQuest.Quest;
 
-namespace FShousingProgram
+namespace KerbTownQuest
 {
     [KSPAddon(KSPAddon.Startup.Flight, false)]
-    public class KTKerbalInventory : MonoBehaviour
+    public class KerbTownQuestLogic : MonoBehaviour
     {
         public static KTKerbalRoster kerbalRoster = new KTKerbalRoster();
         public static ItemLibrary itemLibrary = new ItemLibrary();
