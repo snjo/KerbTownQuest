@@ -9,8 +9,8 @@ namespace KerbTownQuest.Util
 {
     public struct IntVector2
     {
-        int x;
-        int y;        
+        public int x;
+        public int y;        
 
         public IntVector2(int _x, int _y)
         {

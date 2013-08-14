@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace KerbTownQuest.Inventory
 {
     public class BackPackItem
     {
         public string name; // simple internal name
-        private string _displayName; // optional, the fancy display name of the item
+        private string _displayName = ""; // optional, the fancy display name of the item
         public int itemSlots = 1; // how many backpack slots it takes up
         public float baseWeight; // the dry weight of the item        
         public float units; // for the amount of fuel in a jerry can, the intactness of a pitcher of grog, or the health of a goldfish
@@ -19,6 +20,11 @@ namespace KerbTownQuest.Inventory
         public string questTag; //used to separate this item from similar items for quests
         public string iconName; // a square image for the inventory grid
         public string meshName;
+        public GameObject mesh;
+        public bool removable = true;
+        public string defaultModelName = "bagOfJunk";
+        public string modelRootURL = "FShousingProgram/models/";
+
         public enum ItemType
         {
             undefined,
@@ -34,10 +40,14 @@ namespace KerbTownQuest.Inventory
         {
             get
             {
-                if (_displayName != string.Empty)
+                if (_displayName != "")
+                {
                     return _displayName;
+                }
                 else
+                {
                     return name;
+                }
             }
             set
             {
@@ -50,6 +60,44 @@ namespace KerbTownQuest.Inventory
             get
             {
                 return baseWeight + (units * weightPerUnit);
+            }
+        }
+
+        public BackPackItem()
+        {
+        }
+
+        public BackPackItem(string uniqueName)
+        {
+            name = uniqueName;
+        }
+
+        public BackPackItem(string uniqueName, string icon)
+        {
+            name = uniqueName;
+            iconName = icon;
+        }
+
+        public void findModel()
+        {
+            if (meshName == string.Empty)
+            {
+                if (GameDatabase.Instance.ExistsModel(modelRootURL + defaultModelName))
+                    mesh = GameDatabase.Instance.GetModel(modelRootURL + defaultModelName);
+            }
+            else
+            {
+                if (GameDatabase.Instance.ExistsModel(meshName))
+                    mesh = GameDatabase.Instance.GetModel(meshName);
+            }
+        }
+
+        public void Spawn(Vector3 position, Quaternion rotation)
+        {
+            if (mesh != null)
+            {
+                GameObject newObject = (GameObject)GameObject.Instantiate(mesh, position, rotation);
+                PickupItem newPickup = newObject.AddComponent<PickupItem>();
             }
         }
     }

@@ -110,10 +110,13 @@ namespace KerbTownQuest.GUI
                 if (subElementRect.width == 0)
                     subElementRect.width = (elementSize.x / activeElements) - (subElementSpacing);
 
-                if (element.buttons[i].style == null)
-                {
-                    element.buttons[i].style = new GUIStyle(GUI.skin.button);
-                }
+                //if (element.buttons[i].style == null) 
+                //{
+                //    element.buttons[i].style = new GUIStyle(GUI.skin.button); // This has to happen in a the OnGUI, annoyingly! Should create it from scratch elsewhere.
+                //    if (element.buttons[i].texture != null)
+                //        element.buttons[i].style.normal.background = element.buttons[i].texture;
+                //}
+
                 if (GUI.Button(subElementRect, element.buttons[i].buttonText, element.buttons[i].style))
                 {
                     if (element.buttons[i].genericFunction != null)
@@ -230,15 +233,37 @@ namespace KerbTownQuest.GUI
         public string buttonText;
         public string buttonTextOn;
         public string buttonTextOff;
+        public Texture2D texture;
         public float buttonWidth;
         public bool isToggleButton;
         public bool toggleState;
         public PopupElement popupElement;
 
-        public GUIStyle style; // GUIStyle(GUI.skin.button);
+        public GUIStyle style;
         Color selectedColor = Color.red;
         Color normalColor = Color.white;
         Color disabledColor = Color.gray;
+
+        public void setupGUIStyle()
+        {
+            style = new GUIStyle(); //GUI.skin.GetStyle("Button"));
+            //style.normal.background = texture;
+            //style.border = new RectOffset(1,1,1,1);
+            style.alignment = TextAnchor.LowerCenter;
+        }
+
+        public void setTexture(Texture2D normalTexture, Texture2D hoverTexture, Texture2D focusedTexture, Texture2D activeTexture)
+        {            
+            style.normal.background = normalTexture;
+            style.hover.background = hoverTexture;
+            style.focused.background = focusedTexture;
+            style.active.background = activeTexture;            
+        }
+
+        public void setTexture(Texture2D allStatesTextures)
+        {
+            setTexture(allStatesTextures, allStatesTextures, allStatesTextures, allStatesTextures);
+        }
 
         private bool _styleSelected;
         public bool styleSelected
@@ -284,7 +309,7 @@ namespace KerbTownQuest.GUI
 
         public PopupButton()
         {
-
+            setupGUIStyle();
         }
 
         public PopupButton(string text, float width, RunFunction function)
@@ -293,6 +318,7 @@ namespace KerbTownQuest.GUI
             buttonWidth = width;
             genericFunction = function;
             isToggleButton = false;
+            setupGUIStyle();
         }
 
         public PopupButton(string textOn, string textOff, float width, RunFunction function)
@@ -303,6 +329,7 @@ namespace KerbTownQuest.GUI
             isToggleButton = true;
             buttonWidth = width;
             genericFunction = function;
+            setupGUIStyle();
         }
 
         public PopupButton(string text, float width, RunButtonSpecificFunction function)
@@ -310,6 +337,7 @@ namespace KerbTownQuest.GUI
             buttonText = text;
             buttonWidth = width;
             buttonSpecificFunction = function;
+            setupGUIStyle();
         }
 
         public PopupButton(string text, float width, RunIDFunctionInt function, int ID)
@@ -318,6 +346,7 @@ namespace KerbTownQuest.GUI
             buttonWidth = width;
             IDfunctionInt = function;
             buttonIDInt = ID;
+            setupGUIStyle();
         }
 
         public PopupButton(string text, float width, RunIDFunctionString function, string ID)
@@ -326,6 +355,7 @@ namespace KerbTownQuest.GUI
             buttonWidth = width;
             IDfunctionString = function;
             buttonIDString = ID;
+            setupGUIStyle();
         }
 
         public void toggle(bool newState)

@@ -13,8 +13,7 @@ namespace KerbTownQuest.Inventory
         public float weightCapacity = 100f;
         public float weightUsed;
         public int itemCapacity = 10;
-        public int itemSlotsUsed;
-        public IntVector2 gridSize = new IntVector2(6, 10);
+        public int itemSlotsUsed;        
 
         public bool AddItem(BackPackItem item)
         {

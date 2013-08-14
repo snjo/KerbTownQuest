@@ -36,6 +36,17 @@ namespace KerbTownQuest
             return false;
         }
 
+        public void updateBackPack()
+        {
+            //test
+            BackPackItem item = new BackPackItem("fakeBeard", "fakeBeard");
+            item.displayName = "Fake Beard";
+            activeKerbal.backpack.AddItem(item);
+            activeKerbal.backpack.AddItem(new BackPackItem("Spanner"));
+            //---
+            inventoryGUI.createInventoryGrid(activeKerbal.backpack);
+        }
+
         private void updateActiveVessel()
         {
             if (activeVessel != FlightGlobals.ActiveVessel)
@@ -49,7 +60,8 @@ namespace KerbTownQuest
                     {
                         activeKerbal = kerbalRoster.AddbyName(kerbalName);
                     }
-                }
+                    updateBackPack();
+                }                
                 Debug.Log("KTQlogic: Vessel is Kerbal: " + activeVesselIsKerbal);
             }
         }
@@ -57,7 +69,7 @@ namespace KerbTownQuest
         public void Start()
         {
             //Debug.Log("KerbTownQuestLogic: Start");
-            inventoryGUI.OnStart();
+            inventoryGUI.OnStart();            
             hotBar.OnStart();
             hotBar.toggleInventory = inventoryGUI.toggleInventory;
         }
@@ -69,7 +81,17 @@ namespace KerbTownQuest
                 updateActiveVessel(); // updates the reference in activeVessel, and checks whether it's a kerbal or a craft                
             }
         }
-       
+
+        public void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.PageUp))
+            {
+                Debug.Log("Dropping bag");
+                activeKerbal.backpack.items[0].findModel();
+                activeKerbal.backpack.items[0].Spawn(activeVessel.transform.position, activeVessel.transform.rotation);
+            }
+        }
+
         public void OnGUI()
         {
             if (activeVesselIsKerbal)
