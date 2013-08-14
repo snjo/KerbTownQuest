@@ -19,7 +19,7 @@ namespace KerbTownQuest.Inventory
         public bool belongsTo; //is this stolen goods, or does it belongs to this kerbal?
         public string questTag; //used to separate this item from similar items for quests
         public string iconName; // a square image for the inventory grid
-        public string meshName;
+        public string meshName = string.Empty;
         public GameObject mesh;
         public bool removable = true;
         public string defaultModelName = "bagOfJunk";
@@ -82,22 +82,42 @@ namespace KerbTownQuest.Inventory
         {
             if (meshName == string.Empty)
             {
+                Debug.Log("loading default model " + modelRootURL + defaultModelName);
                 if (GameDatabase.Instance.ExistsModel(modelRootURL + defaultModelName))
+                {
+                    Debug.Log("found default model");
                     mesh = GameDatabase.Instance.GetModel(modelRootURL + defaultModelName);
+                }
+                else
+                {
+                    Debug.Log("missing default model");
+                }
             }
             else
             {
+                Debug.Log("loading model " + meshName);
                 if (GameDatabase.Instance.ExistsModel(meshName))
+                {                    
                     mesh = GameDatabase.Instance.GetModel(meshName);
+                }
             }
         }
 
         public void Spawn(Vector3 position, Quaternion rotation)
         {
             if (mesh != null)
-            {
+            {                
                 GameObject newObject = (GameObject)GameObject.Instantiate(mesh, position, rotation);
+                newObject.SetActive(true);
+                Rigidbody rigidbody = newObject.AddComponent<Rigidbody>();
+                rigidbody.mass = 0.1f;
+                rigidbody.useGravity = true;
                 PickupItem newPickup = newObject.AddComponent<PickupItem>();
+                Debug.Log("Instantiated model, pos: " + newObject.transform.position);
+            }
+            else
+            {
+                Debug.Log("Spawn item: mesh is null");
             }
         }
     }

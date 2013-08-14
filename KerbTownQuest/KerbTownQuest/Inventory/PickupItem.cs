@@ -13,9 +13,6 @@ namespace KerbTownQuest.Inventory
         public List<BackPackItem> items = new List<BackPackItem>();
         public bool autoPickup = false;
         public float pickupRange = 3f;
-        public Collider collider;
-        public string modelName;
-        public GameObject model;
 
         public void OnColliderEnter()
         {

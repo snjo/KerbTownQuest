@@ -48,6 +48,7 @@ namespace KerbTownQuest
             popup = new GUIPopup(0, GUIwindowID.hotBar, windowRect, "Hotbar");
             popup.elementList.Add(new PopupElement(new PopupButton("Inventory", 50f, runToggleInventory)));
             popup.showMenu = true;
+            popup.showCloseButton = false;
         }
 
         public void OnGUI()
