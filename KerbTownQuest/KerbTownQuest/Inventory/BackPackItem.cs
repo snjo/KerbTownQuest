@@ -114,6 +114,9 @@ namespace KerbTownQuest.Inventory
                 rigidbody.useGravity = true;
                 PickupItem newPickup = newObject.AddComponent<PickupItem>();
                 Debug.Log("Instantiated model, pos: " + newObject.transform.position);
+
+                newPickup.items.Add(ItemLibrary.items["fakeBeard"]);
+                newPickup.items.Add(ItemLibrary.items["Jetpack"]);
             }
             else
             {

@@ -24,6 +24,7 @@ namespace KerbTownQuest.GUI
         public float marginTop = 22f;
         public float marginBottom = 10f;
         public float subElementSpacing = 8f;
+        public float lineSpacing = 8f;
         //public bool optionEnabled = false;
         public bool showCloseButton = true;
         public string optionEnabledString = "On";
@@ -129,14 +130,14 @@ namespace KerbTownQuest.GUI
                 subElementRect.x += subElementRect.width + subElementSpacing;
             }
 
-            lastElementTop += elementSize.y + subElementSpacing;
+            lastElementTop += elementSize.y + lineSpacing; //subElementSpacing;
         }
 
         private void drawWindow(int windowID)
         {
             lastElementTop = 0f;
             elementSize.x = windowRect.width - marginLeft - marginRight + subElementSpacing;
-            windowRect.height = ((float)elementList.Count * (elementSize.y + subElementSpacing)) + marginTop + marginBottom;
+            windowRect.height = ((float)elementList.Count * (elementSize.y + lineSpacing)) + marginTop + marginBottom;
             for (int i = 0; i < elementList.Count; i++)
             {
                 drawElement(elementList[i]);

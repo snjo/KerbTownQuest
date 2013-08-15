@@ -60,8 +60,19 @@ namespace KerbTownQuest.Inventory
             return newTile;
         }
 
+        public void updateGrid()
+        {
+            activeKerbal = KerbTownQuestLogic.activeKerbal;
+            if (activeKerbal.backpack.contentsHaveChanged)
+            {
+                createInventoryGrid(activeKerbal.backpack);
+                activeKerbal.backpack.contentsHaveChanged = false;
+            }
+        }
+
         public void createInventoryGrid(Backpack backpack)
         {
+            popup.elementList = new List<PopupElement>();
             int counter = scrollLine * gridSize.x;            
             for (int y = 0; y < gridSize.y; y++)
             {
@@ -90,7 +101,9 @@ namespace KerbTownQuest.Inventory
         public void OnStart()
         {            
             createPopup();
-            popup.windowRect.width = (gridSize.x * tileSize.x) + popup.marginLeft + popup.marginRight;
+            popup.subElementSpacing = padding.x;
+            popup.lineSpacing = padding.y;
+            popup.windowRect.width = (gridSize.x * tileSize.x) + ((gridSize.x - 1) * popup.subElementSpacing) + popup.marginLeft + popup.marginRight;
             windowRect.width = popup.windowRect.width;
         }
 
@@ -127,7 +140,7 @@ namespace KerbTownQuest.Inventory
             }
             else
             {
-                Debug.Log("KerbTownQuest InventoryGUI: Missing item icon texture " + imageURL);
+                //Debug.Log("KerbTownQuest InventoryGUI: Missing item icon texture " + imageURL);
                 button.buttonText = item.displayName; // if the image is missing, default to text on the button
             }
         }

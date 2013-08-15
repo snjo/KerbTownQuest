@@ -34,18 +34,7 @@ namespace KerbTownQuest
                 }
             }
             return false;
-        }
-
-        public void updateBackPack()
-        {
-            //test
-            BackPackItem item = new BackPackItem("fakeBeard", "fakeBeard");
-            item.displayName = "Fake Beard";
-            activeKerbal.backpack.AddItem(item);
-            activeKerbal.backpack.AddItem(new BackPackItem("Spanner"));
-            //---
-            inventoryGUI.createInventoryGrid(activeKerbal.backpack);
-        }
+        }        
 
         private void updateActiveVessel()
         {
@@ -58,9 +47,10 @@ namespace KerbTownQuest
                     activeKerbal = kerbalRoster.findKerbalByName(kerbalName);
                     if (activeKerbal == null)
                     {
-                        activeKerbal = kerbalRoster.AddbyName(kerbalName);
+                        activeKerbal = kerbalRoster.AddbyName(kerbalName);                        
+                        activeKerbal.backpack.AddItem(ItemLibrary.items["Wrench"]);                        
                     }
-                    updateBackPack();
+                    inventoryGUI.createInventoryGrid(activeKerbal.backpack);
                 }                
                 Debug.Log("KTQlogic: Vessel is Kerbal: " + activeVesselIsKerbal);
             }
@@ -78,7 +68,11 @@ namespace KerbTownQuest
         {
             if (HighLogic.LoadedSceneIsFlight)
             {
-                updateActiveVessel(); // updates the reference in activeVessel, and checks whether it's a kerbal or a craft                
+                updateActiveVessel(); // updates the reference in activeVessel, and checks whether it's a kerbal or a craft    
+                if (activeVesselIsKerbal)
+                {
+                    inventoryGUI.updateGrid();
+                }
             }
         }
 

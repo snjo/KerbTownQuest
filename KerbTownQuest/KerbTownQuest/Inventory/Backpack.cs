@@ -13,15 +13,17 @@ namespace KerbTownQuest.Inventory
         public float weightCapacity = 100f;
         public float weightUsed;
         public int itemCapacity = 10;
-        public int itemSlotsUsed;        
+        public int itemSlotsUsed;
+        public bool contentsHaveChanged = false;
 
         public bool AddItem(BackPackItem item)
         {
-            if (itemSlotsUsed + item.itemSlots < itemCapacity && weightUsed + item.totalWeight < weightCapacity)
+            if (itemSlotsUsed + item.itemSlots <= itemCapacity && weightUsed + item.totalWeight <= weightCapacity)
             {
                 items.Add(item);
                 itemSlotsUsed += item.itemSlots;
                 weightUsed += item.totalWeight;
+                contentsHaveChanged = true;
                 return true;
             }
             else
@@ -35,6 +37,7 @@ namespace KerbTownQuest.Inventory
                 weightUsed -= items[ID].totalWeight;
                 itemSlotsUsed -= items[ID].itemSlots;
                 items.RemoveAt(ID);
+                contentsHaveChanged = true;
                 return true;
             }
             else
@@ -48,6 +51,7 @@ namespace KerbTownQuest.Inventory
                 weightUsed -= item.totalWeight;
                 itemSlotsUsed -= item.itemSlots;
                 items.Remove(item);
+                contentsHaveChanged = true;
                 return true;
             }
             else
