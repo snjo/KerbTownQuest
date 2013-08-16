@@ -18,6 +18,10 @@ namespace KerbTownQuest.Inventory
             items.Add("Wrench", new BackPackItem("Wrench"));
             items.Add("Jetpack", new BackPackItem("Jetpack"));
 
+            BackPackItem bomb = new BackPackItem("bomb");
+            bomb.meshName = BackPackItem.modelRootURL + "bomb";
+            items.Add("bomb", bomb);
+
             BackPackItem money = new BackPackItem("Money", "Money");
             money.meshName = BackPackItem.modelRootURL + "Money";
             money.units = 100;

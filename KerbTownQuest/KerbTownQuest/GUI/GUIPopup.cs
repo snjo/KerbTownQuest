@@ -17,7 +17,8 @@ namespace KerbTownQuest.GUI
     {
         public bool showMenu = false;
         public Rect windowRect = new Rect(500f, 300f, 150f, 100f);
-        public Vector2 elementSize = new Vector2(130f, 25f);        
+        //public Vector2 elementSize = new Vector2(130f, 25f);
+        public float elementWidth = 130f;
         public float marginLeft = 10f;
         public float marginRight = 10f;
         public float marginTop = 22f;
@@ -92,12 +93,12 @@ namespace KerbTownQuest.GUI
             if (activeElements < 1)
                 return;
 
-            Rect subElementRect = new Rect(marginLeft, marginTop + lastSectionTop + lastElementTop, element.titleSize, elementSize.y);
+            Rect subElementRect = new Rect(marginLeft, marginTop + lastSectionTop + lastElementTop, element.titleSize, element.height);
 
             if (element.useTitle)
             {
                 if (subElementRect.width == 0)
-                    subElementRect.width = (elementSize.x / activeElements) - (subElementSpacing);
+                    subElementRect.width = (elementWidth / activeElements) - (subElementSpacing);
                 GUI.Label(subElementRect, element.titleText);
                 subElementRect.x += subElementRect.width + subElementSpacing;
             }
@@ -106,7 +107,7 @@ namespace KerbTownQuest.GUI
             {
                 subElementRect.width = element.inputSize;
                 if (subElementRect.width == 0)
-                    subElementRect.width = (elementSize.x / activeElements) - (subElementSpacing);
+                    subElementRect.width = (elementWidth / activeElements) - (subElementSpacing);
                 element.inputText = GUI.TextField(subElementRect, element.inputText);
                 subElementRect.x += subElementRect.width + subElementSpacing;
             }
@@ -115,7 +116,7 @@ namespace KerbTownQuest.GUI
             {
                 subElementRect.width = element.buttons[i].buttonWidth;
                 if (subElementRect.width == 0)
-                    subElementRect.width = (elementSize.x / activeElements) - (subElementSpacing);
+                    subElementRect.width = (elementWidth / activeElements) - (subElementSpacing);
 
                 //if (element.buttons[i].style == null) 
                 //{
@@ -138,11 +139,12 @@ namespace KerbTownQuest.GUI
                 subElementRect.x += subElementRect.width + subElementSpacing;
             }
 
-            lastElementTop += elementSize.y + lineSpacing; //subElementSpacing;
+            lastElementTop += element.height + lineSpacing; //subElementSpacing;
         }
 
         private void drawWindow(int windowID)
         {
+            windowRect.height = marginTop + marginBottom - lineSpacing;
             lastSectionTop = 0f;
             foreach (Section section in sections)
             {
@@ -156,11 +158,12 @@ namespace KerbTownQuest.GUI
         private void drawSection(Section section)
         {
             lastElementTop = 0f;
-            elementSize.x = windowRect.width - marginLeft - marginRight + subElementSpacing;
-            windowRect.height = ((float)section.elements.Count * (elementSize.y + lineSpacing)) + marginTop + marginBottom;
+            elementWidth = windowRect.width - marginLeft - marginRight + subElementSpacing;
+            //windowRect.height = ((float)section.elements.Count * (elementSize.y + lineSpacing)) + marginTop + marginBottom;
             for (int i = 0; i < section.elements.Count; i++)
             {
                 drawElement(section.elements[i]);
+                windowRect.height += section.elements[i].height + lineSpacing;
             }
             if (showCloseButton)
             {
@@ -188,6 +191,11 @@ namespace KerbTownQuest.GUI
     public class Section
     {
         public List<PopupElement> elements = new List<PopupElement>();
+        public void AddElement(PopupElement element, float height)
+        {
+            element.height = height;
+            elements.Add(element);
+        }
     }
 
     public class PopupElement
@@ -195,7 +203,7 @@ namespace KerbTownQuest.GUI
         public string titleText = "";
         public string inputText = "";
         public List<PopupButton> buttons = new List<PopupButton>();
-
+        public float height = 25f;
         public float titleSize = 0f;
         public float inputSize = 0f;
 

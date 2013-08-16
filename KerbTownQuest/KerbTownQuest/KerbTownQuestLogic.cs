@@ -54,6 +54,7 @@ namespace KerbTownQuest
                         activeKerbal.backpack.AddItem(ItemLibrary.items["Money"]);
                         activeKerbal.backpack.AddItem(ItemLibrary.items["fakeBeard"]);
                         activeKerbal.backpack.AddItem(ItemLibrary.items["Jetpack"]);
+                        activeKerbal.backpack.AddItem(ItemLibrary.items["bomb"]);
 
                         activeKerbal.transform = activeVessel.transform;
                     }

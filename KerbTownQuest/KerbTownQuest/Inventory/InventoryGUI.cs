@@ -11,9 +11,10 @@ namespace KerbTownQuest.Inventory
 {
     public class InventoryGUI
     {        
-        public Rect windowRect = new Rect(10f, 100f, 300f, 500f);
+        public Rect windowRect = new Rect(10f, 100f, 300f, 100f);
         public Vector2 padding = new Vector2(4f, 4f);
         public Vector2 tileSize = new Vector2(64f, 64f);
+        public Vector2 buttonSize = new Vector2(64f, 32f);
         public KTKerbal activeKerbal;
         public bool visible;        
         public IntVector2 gridSize = new IntVector2(6, 10);        
@@ -109,7 +110,7 @@ namespace KerbTownQuest.Inventory
             for (int y = 0; y < gridSize.y; y++)
             {
                 PopupElement newElement = new PopupElement();
-                tileSection.elements.Add(newElement);
+                tileSection.AddElement(newElement, tileSize.y);
                 for (int x = 0; x < gridSize.x; x++)
                 {
                     if (counter < backpack.items.Count)
@@ -129,12 +130,12 @@ namespace KerbTownQuest.Inventory
 
         private void createButtons()
         {
-            buttonDropItem = new PopupButton("Drop", 0f, setButtonMode, "drop");
-            buttonUseItem = new PopupButton("Use", 0f, setButtonMode, "use");
+            buttonDropItem = new PopupButton("Drop", buttonSize.x, setButtonMode, "drop");
+            buttonUseItem = new PopupButton("Use", buttonSize.x, setButtonMode, "use");
             primaryButtonRow = new PopupElement("0/0 kg");
             primaryButtonRow.buttons.Add(buttonDropItem);
             primaryButtonRow.buttons.Add(buttonUseItem);
-            buttonSection.elements.Add(primaryButtonRow);
+            buttonSection.AddElement(primaryButtonRow, buttonSize.y);
 
             //buttonSection.elements.Add(
         }
@@ -147,7 +148,7 @@ namespace KerbTownQuest.Inventory
             popup.sections.Add(buttonSection);
             popup.sections.Add(tileSection);            
 
-            popup.elementSize.y = tileSize.y;
+            //popup.elementSize.y = tileSize.y;
             popup.hideMenuEvent = inventoryOff;
             popup.showMenu = true;
         }
