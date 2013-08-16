@@ -4,13 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using KerbTownQuest.Inventory;
+using UnityEngine;
 
 namespace KerbTownQuest
 {
     public class KTKerbal //: Kerbal //extends the stock game's Kerbal
     {
         public string name; // use crewMemberName
-        public Kerbal kerbal;
+        //public Kerbal kerbal;
+        public Transform transform;
         public float health;
         public int XP;
         public int level;

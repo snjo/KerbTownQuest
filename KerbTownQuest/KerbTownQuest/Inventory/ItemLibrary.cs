@@ -17,6 +17,11 @@ namespace KerbTownQuest.Inventory
             items.Add("fakeBeard", new BackPackItem("fakeBeard", "fakeBeard"));
             items.Add("Wrench", new BackPackItem("Wrench"));
             items.Add("Jetpack", new BackPackItem("Jetpack"));
+
+            BackPackItem money = new BackPackItem("Money", "Money");
+            money.meshName = BackPackItem.modelRootURL + "Money";
+            money.units = 100;
+            items.Add("Money", money);
         }
     }
 }

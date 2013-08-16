@@ -17,8 +17,7 @@ namespace KerbTownQuest.GUI
     {
         public bool showMenu = false;
         public Rect windowRect = new Rect(500f, 300f, 150f, 100f);
-        public Vector2 elementSize = new Vector2(130f, 25f);
-        public float lastElementTop = 0f;
+        public Vector2 elementSize = new Vector2(130f, 25f);        
         public float marginLeft = 10f;
         public float marginRight = 10f;
         public float marginTop = 22f;
@@ -38,12 +37,16 @@ namespace KerbTownQuest.GUI
         public delegate void HideMenuEvent();
         public HideMenuEvent hideMenuEvent;
 
+        private float lastSectionTop = 0f;
+        private float lastElementTop = 0f;
+
         //public bool useInActionEditor = true;
         //public bool useInFlight = false;
         //public delegate void RunFunction();
         //private RunFunction run;
 
-        public List<PopupElement> elementList = new List<PopupElement>();
+        public List<Section> sections = new List<Section>();
+        //public List<PopupElement> elementList = new List<PopupElement>();
 
         //private string currentOptionString;    
 
@@ -57,7 +60,10 @@ namespace KerbTownQuest.GUI
         /// <param name="windowDimensions">Left, Top, Width and Height of the GUI window. These are not static, but changed by dragging the window and by resizing functions.</param>
         public GUIPopup(int ID, int Windowlayer, Rect windowDimensions, string windowName, PopupElement defaultElement)
         {
-            elementList.Add(defaultElement);            
+            sections = new List<Section>();
+            sections.Add(new Section());
+            sections[0].elements.Add(defaultElement);
+            //elementList.Add(defaultElement);            
             //moduleName = module;
             moduleID = ID;
             GUIlayer = Windowlayer;
@@ -86,7 +92,7 @@ namespace KerbTownQuest.GUI
             if (activeElements < 1)
                 return;
 
-            Rect subElementRect = new Rect(marginLeft, marginTop + lastElementTop, element.titleSize, elementSize.y);
+            Rect subElementRect = new Rect(marginLeft, marginTop + lastSectionTop + lastElementTop, element.titleSize, elementSize.y);
 
             if (element.useTitle)
             {
@@ -126,6 +132,8 @@ namespace KerbTownQuest.GUI
                         element.buttons[i].buttonSpecificFunction(element.buttons[i]);
                     if (element.buttons[i].IDfunctionInt != null)
                         element.buttons[i].IDfunctionInt(element.buttons[i].buttonIDInt);
+                    if (element.buttons[i].IDfunctionString != null)
+                        element.buttons[i].IDfunctionString(element.buttons[i].buttonIDString);
                 }
                 subElementRect.x += subElementRect.width + subElementSpacing;
             }
@@ -135,12 +143,24 @@ namespace KerbTownQuest.GUI
 
         private void drawWindow(int windowID)
         {
+            lastSectionTop = 0f;
+            foreach (Section section in sections)
+            {
+                drawSection(section);
+                lastSectionTop += lastElementTop;
+            }
+            
+            GUI.DragWindow();
+        }
+
+        private void drawSection(Section section)
+        {
             lastElementTop = 0f;
             elementSize.x = windowRect.width - marginLeft - marginRight + subElementSpacing;
-            windowRect.height = ((float)elementList.Count * (elementSize.y + lineSpacing)) + marginTop + marginBottom;
-            for (int i = 0; i < elementList.Count; i++)
+            windowRect.height = ((float)section.elements.Count * (elementSize.y + lineSpacing)) + marginTop + marginBottom;
+            for (int i = 0; i < section.elements.Count; i++)
             {
-                drawElement(elementList[i]);
+                drawElement(section.elements[i]);
             }
             if (showCloseButton)
             {
@@ -150,7 +170,6 @@ namespace KerbTownQuest.GUI
                     hideMenuEvent();
                 }
             }
-            GUI.DragWindow();
         }
 
         public void popup()
@@ -164,6 +183,11 @@ namespace KerbTownQuest.GUI
             }
             //return optionEnabled;        
         }
+    }
+
+    public class Section
+    {
+        public List<PopupElement> elements = new List<PopupElement>();
     }
 
     public class PopupElement

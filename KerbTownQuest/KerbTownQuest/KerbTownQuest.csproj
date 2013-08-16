@@ -53,7 +53,7 @@
     <Compile Include="Inventory\BackPackItem.cs" />
     <Compile Include="GUI\GUIPopup.cs" />
     <Compile Include="GUI\GUIwindowID.cs" />
-    <Compile Include="Inventory\PickupItem.cs" />
+    <Compile Include="Inventory\Container.cs" />
     <Compile Include="KerbTownQuestLogic.cs" />
     <Compile Include="Util\IntVector.cs" />
     <Compile Include="Inventory\InventoryGUI.cs" />
@@ -65,6 +65,7 @@
     <Compile Include="Quest\QuestGoal.cs" />
     <Compile Include="Quest\QuestLog.cs" />
     <Compile Include="Util\MouseEventHandler.cs" />
+    <Compile Include="Util\TranformTools.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

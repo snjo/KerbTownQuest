@@ -17,6 +17,7 @@ namespace KerbTownQuest
         private Vector2 actualHotBarPosition;
         private Vector2 displaySize;
         private GUIPopup popup;
+        private Section buttonSection = new Section();
 
         public delegate void ToggleInventory();
         public ToggleInventory toggleInventory;
@@ -46,7 +47,8 @@ namespace KerbTownQuest
         {
             createWindowRect();
             popup = new GUIPopup(0, GUIwindowID.hotBar, windowRect, "Hotbar");
-            popup.elementList.Add(new PopupElement(new PopupButton("Inventory", 50f, runToggleInventory)));
+            popup.sections.Add(buttonSection);
+            buttonSection.elements.Add(new PopupElement(new PopupButton("Inventory", 50f, runToggleInventory)));
             popup.showMenu = true;
             popup.showCloseButton = false;
         }

@@ -47,8 +47,15 @@ namespace KerbTownQuest
                     activeKerbal = kerbalRoster.findKerbalByName(kerbalName);
                     if (activeKerbal == null)
                     {
-                        activeKerbal = kerbalRoster.AddbyName(kerbalName);                        
-                        activeKerbal.backpack.AddItem(ItemLibrary.items["Wrench"]);                        
+                        activeKerbal = kerbalRoster.AddbyName(kerbalName);
+
+                        // test:
+                        activeKerbal.backpack.AddItem(ItemLibrary.items["Wrench"]);
+                        activeKerbal.backpack.AddItem(ItemLibrary.items["Money"]);
+                        activeKerbal.backpack.AddItem(ItemLibrary.items["fakeBeard"]);
+                        activeKerbal.backpack.AddItem(ItemLibrary.items["Jetpack"]);
+
+                        activeKerbal.transform = activeVessel.transform;
                     }
                     inventoryGUI.createInventoryGrid(activeKerbal.backpack);
                 }                
@@ -82,7 +89,7 @@ namespace KerbTownQuest
             {
                 Debug.Log("Dropping bag");
                 activeKerbal.backpack.items[0].findModel();
-                activeKerbal.backpack.items[0].Spawn(activeVessel.transform.position, activeVessel.transform.rotation);
+                activeKerbal.backpack.items[0].Spawn(activeVessel.transform);
             }
         }
 

@@ -19,11 +19,20 @@ namespace KerbTownQuest.Inventory
         public IntVector2 gridSize = new IntVector2(6, 10);        
         public string iconRootURL = "FShousingProgram/icons/";
         public string modelRootURL = "FShousingProgram/models/";
+        public float dropDistance = 1f;
 
         private GUI.GUIPopup popup;
         private int scrollLine;
         private List<PopupElement> itemElements = new List<PopupElement>();
         private List<InventoryTile> tiles = new List<InventoryTile>();
+        private Section tileSection = new Section();
+        private Section buttonSection = new Section();
+
+        private PopupButton buttonDropItem;
+        private PopupButton buttonUseItem;
+        private PopupElement primaryButtonRow;
+        private string buttonMode = "";
+
 
         public void toggleInventory()
         {
@@ -47,9 +56,31 @@ namespace KerbTownQuest.Inventory
         }
 
         public void tileClick(InventoryTile tile)
-        {
-            Debug.Log("tile clicked");
+        {            
             Debug.Log("tile: " + tile.item.displayName + " / " + tile.item.name );
+            switch (buttonMode)
+            {
+                case "drop":
+                    dropItem(tile);                  
+                    break;
+                case "use":
+                    Debug.Log("use item " + tile.item.displayName);
+                    break;
+                default:
+                    Debug.Log("no button mode set");
+                    break;
+            }
+        }
+
+        private void dropItem(InventoryTile tile)
+        {
+            Transform dropLocation = new GameObject().transform;
+            dropLocation.position = activeKerbal.transform.position;
+            dropLocation.rotation = activeKerbal.transform.rotation;
+            //dropLocation.LookAt(TranformTools.WorldUp(FlightGlobals.ActiveVessel));
+            dropLocation.position += (activeKerbal.transform.forward + (TranformTools.WorldUp(FlightGlobals.ActiveVessel) * 0.5f)).normalized * dropDistance;
+            Debug.Log("dropping at: " + dropLocation.position + ", kerbal: " + activeKerbal.transform.position + " , forward: " + dropLocation.forward.normalized * dropDistance);
+            activeKerbal.backpack.DropItem(tile.item, dropLocation);
         }
 
         private InventoryTile createInventoryTile(BackPackItem item)
@@ -72,12 +103,13 @@ namespace KerbTownQuest.Inventory
 
         public void createInventoryGrid(Backpack backpack)
         {
-            popup.elementList = new List<PopupElement>();
+            tileSection.elements = new List<PopupElement>();
+            //popup.elementList = new List<PopupElement>();
             int counter = scrollLine * gridSize.x;            
             for (int y = 0; y < gridSize.y; y++)
             {
                 PopupElement newElement = new PopupElement();
-                popup.elementList.Add(newElement);
+                tileSection.elements.Add(newElement);
                 for (int x = 0; x < gridSize.x; x++)
                 {
                     if (counter < backpack.items.Count)
@@ -89,9 +121,31 @@ namespace KerbTownQuest.Inventory
             }            
         }
 
+        private void setButtonMode(string newMode)
+        {
+            buttonMode = newMode;
+            Debug.Log("Button mode set to " + newMode);
+        }
+
+        private void createButtons()
+        {
+            buttonDropItem = new PopupButton("Drop", 0f, setButtonMode, "drop");
+            buttonUseItem = new PopupButton("Use", 0f, setButtonMode, "use");
+            primaryButtonRow = new PopupElement("0/0 kg");
+            primaryButtonRow.buttons.Add(buttonDropItem);
+            primaryButtonRow.buttons.Add(buttonUseItem);
+            buttonSection.elements.Add(primaryButtonRow);
+
+            //buttonSection.elements.Add(
+        }
+
         private void createPopup()
         {
             popup = new GUIPopup(0, GUIwindowID.inventory, windowRect, "Inventory");
+
+            createButtons();
+            popup.sections.Add(buttonSection);
+            popup.sections.Add(tileSection);            
 
             popup.elementSize.y = tileSize.y;
             popup.hideMenuEvent = inventoryOff;

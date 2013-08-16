@@ -16,6 +16,7 @@ namespace KerbTownQuest.Inventory
         public float units; // for the amount of fuel in a jerry can, the intactness of a pitcher of grog, or the health of a goldfish
         public float maxUnits;
         public float weightPerUnit;
+        public bool stackable;
         public bool belongsTo; //is this stolen goods, or does it belongs to this kerbal?
         public string questTag; //used to separate this item from similar items for quests
         public string iconName; // a square image for the inventory grid
@@ -23,7 +24,7 @@ namespace KerbTownQuest.Inventory
         public GameObject mesh;
         public bool removable = true;
         public string defaultModelName = "bagOfJunk";
-        public string modelRootURL = "FShousingProgram/models/";
+        public static string modelRootURL = "FShousingProgram/models/";
 
         public enum ItemType
         {
@@ -97,26 +98,32 @@ namespace KerbTownQuest.Inventory
             {
                 Debug.Log("loading model " + meshName);
                 if (GameDatabase.Instance.ExistsModel(meshName))
-                {                    
+                {
                     mesh = GameDatabase.Instance.GetModel(meshName);
+                }
+                else
+                {
+                    Debug.Log("Can't find model " + meshName);
                 }
             }
         }
 
-        public void Spawn(Vector3 position, Quaternion rotation)
+        public void Spawn(Transform transform)
         {
             if (mesh != null)
-            {                
-                GameObject newObject = (GameObject)GameObject.Instantiate(mesh, position, rotation);
+            {
+                GameObject newObject = (GameObject)GameObject.Instantiate(mesh, transform.position, transform.rotation);
                 newObject.SetActive(true);
                 Rigidbody rigidbody = newObject.AddComponent<Rigidbody>();
                 rigidbody.mass = 0.1f;
                 rigidbody.useGravity = true;
-                PickupItem newPickup = newObject.AddComponent<PickupItem>();
-                Debug.Log("Instantiated model, pos: " + newObject.transform.position);
+                Container newPickup = newObject.AddComponent<Container>();                
+                newPickup.items.Add(this);
+                newPickup.destroyWhenEmpty = true;
 
-                newPickup.items.Add(ItemLibrary.items["fakeBeard"]);
-                newPickup.items.Add(ItemLibrary.items["Jetpack"]);
+                //Debug.Log("Instantiated model, pos: " + newObject.transform.position);
+                //newPickup.items.Add(ItemLibrary.items["fakeBeard"]);
+                //newPickup.items.Add(ItemLibrary.items["Jetpack"]);
             }
             else
             {

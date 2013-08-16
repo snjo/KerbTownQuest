@@ -4,16 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using KerbTownQuest.Util;
+using UnityEngine;
 
 namespace KerbTownQuest.Inventory
 {
-    public class Backpack // a list of backpack items
+    public class Backpack : MonoBehaviour // a list of backpack items
     {
-        public List<BackPackItem> items = new List<BackPackItem>();
+        public string displayName;
+        public List<BackPackItem> items = new List<BackPackItem>(); // should be private
         public float weightCapacity = 100f;
-        public float weightUsed;
+        public float weightUsed = 0f;
         public int itemCapacity = 10;
-        public int itemSlotsUsed;
+        public int itemSlotsUsed = 0;
         public bool contentsHaveChanged = false;
 
         public bool AddItem(BackPackItem item)
@@ -56,6 +58,17 @@ namespace KerbTownQuest.Inventory
             }
             else
                 return false;
+        }
+
+        public bool DropItem(BackPackItem item, Transform transform)
+        {
+            if (item.removable)
+            {
+                item.findModel();
+                item.Spawn(transform);
+                RemoveItem(item);
+            }
+            return false;
         }
     }
 }

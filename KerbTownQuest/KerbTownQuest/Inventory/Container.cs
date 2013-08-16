@@ -7,12 +7,14 @@ using UnityEngine;
 
 namespace KerbTownQuest.Inventory
 {
-    class PickupItem : MonoBehaviour
+    class Container : Backpack
     {
-        public string displayName = "Bag of Junk";
-        public List<BackPackItem> items = new List<BackPackItem>();
+        //public string displayName = "Bag of Junk";
+        //public List<BackPackItem> items = new List<BackPackItem>();
         public bool autoPickup = false;
         public float pickupRange = 3f;
+        public bool destroyWhenEmpty = false;
+        public bool useInventoryPopupWindow = false; // not implemented
 
         public void tryPickup()
         {
@@ -32,9 +34,9 @@ namespace KerbTownQuest.Inventory
             }
             foreach (BackPackItem removalItem in removalList)
             {
-                items.Remove(removalItem);
+                RemoveItem(removalItem);
             }
-            if (items.Count <= 0)
+            if (destroyWhenEmpty && items.Count <= 0)
             {
                 destroyPickup();
             }
@@ -43,7 +45,7 @@ namespace KerbTownQuest.Inventory
         public void destroyPickup()
         {
             Debug.Log("Destroying pickup");
-            Destroy(this.gameObject, 0.5f);
+            Destroy(this.gameObject, 0.05f);
         }
 
         public void OnTriggerEnter(Collider other)
