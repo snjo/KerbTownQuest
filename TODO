@@ -1,0 +1,45 @@
+Add a way for quests and inventory items to run an unspecified function. Invoke, or SendMessage.
+SendMessage can pass parameters. Should be able to reach other dlls' functions.
+cfg-wise, something like:
+MODULE
+{
+  name = Quest
+  questName = Hello Kerbin
+  
+  RUNONSTART
+  {
+    function = spawnItem
+    argument = teaPot, goldenKey
+  }
+  RUNONSTART
+  {
+    function = setTimer
+    argument =
+    amount = 100
+  }
+  
+  RUNONFAIL
+  {
+    function = removeItem
+    argument = goldenKey
+    amount = all
+  }
+  
+  RUNONFAIL
+  {
+    function = disableTimer
+  }
+  
+  RUNONCOMPLETE
+  {
+    function = startQuest
+    argument = Hello Mun
+    option = noConfirm
+  }
+  
+  RUNONCOMPLETE
+  {
+    function = giveXP
+    amount = 100
+  }
+}
