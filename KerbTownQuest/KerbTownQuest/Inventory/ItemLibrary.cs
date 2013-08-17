@@ -8,7 +8,7 @@ namespace KerbTownQuest.Inventory
 {
     public class ItemLibrary // defines items used in quests or just lying around, should be loaded from an xml/cfg file
     {
-        public static Dictionary<string, BackPackItem> items; //dictionary or list?
+        public Dictionary<string, BackPackItem> items; //dictionary or list?
 
         public ItemLibrary()
         {

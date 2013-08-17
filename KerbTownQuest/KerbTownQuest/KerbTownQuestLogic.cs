@@ -12,15 +12,41 @@ namespace KerbTownQuest
     [KSPAddon(KSPAddon.Startup.Flight, false)]
     public class KerbTownQuestLogic : MonoBehaviour
     {
-        public static KTKerbalRoster kerbalRoster = new KTKerbalRoster();
-        public static ItemLibrary itemLibrary = new ItemLibrary();
-        public static QuestLog questLog = new QuestLog();
-        public static KTKerbal activeKerbal;
+        private KTKerbalRoster _kerbalRoster = new KTKerbalRoster();
+        private ItemLibrary _itemLibrary = new ItemLibrary();
+        private QuestLog _questLog = new QuestLog();
+        private KTKerbal _activeKerbal;
         public HotBar hotBar = new HotBar();
         public InventoryGUI inventoryGUI = new InventoryGUI();
         private Vessel activeVessel;
         private bool activeVesselIsKerbal;
         private string kerbalName;
+
+        public static KerbTownQuestLogic Instance = null;
+
+        public void Awake()
+        {
+            Instance = this;
+        }
+
+        public static KTKerbalRoster kerbalRoster
+        {
+            get { return Instance._kerbalRoster; }
+        }
+        public static ItemLibrary itemLibrary
+        {
+            get { return Instance._itemLibrary; }
+        }
+        public static QuestLog questLog
+        {
+            get { return Instance._questLog; }
+        }
+        public static KTKerbal activeKerbal
+        {
+            get { return Instance._activeKerbal; }
+            set { Instance._activeKerbal = value; }
+        }
+
 
         private bool isActiveVesselKerbal()
         {
@@ -50,11 +76,11 @@ namespace KerbTownQuest
                         activeKerbal = kerbalRoster.AddbyName(kerbalName);
 
                         // test:
-                        activeKerbal.backpack.AddItem(ItemLibrary.items["Wrench"]);
-                        activeKerbal.backpack.AddItem(ItemLibrary.items["Money"]);
-                        activeKerbal.backpack.AddItem(ItemLibrary.items["fakeBeard"]);
-                        activeKerbal.backpack.AddItem(ItemLibrary.items["Jetpack"]);
-                        activeKerbal.backpack.AddItem(ItemLibrary.items["bomb"]);
+                        activeKerbal.backpack.AddItem(KerbTownQuestLogic.itemLibrary.items["Wrench"]);
+                        activeKerbal.backpack.AddItem(KerbTownQuestLogic.itemLibrary.items["Money"]);
+                        activeKerbal.backpack.AddItem(KerbTownQuestLogic.itemLibrary.items["fakeBeard"]);
+                        activeKerbal.backpack.AddItem(KerbTownQuestLogic.itemLibrary.items["Jetpack"]);
+                        activeKerbal.backpack.AddItem(KerbTownQuestLogic.itemLibrary.items["bomb"]);
 
                         activeKerbal.transform = activeVessel.transform;
                     }
