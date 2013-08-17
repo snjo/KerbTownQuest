@@ -47,5 +47,13 @@ namespace KerbTownQuest
                 return null;
             }
         }
+
+        public void OnSave()
+        {
+        }
+
+        public void OnLoad()
+        {
+        }
     }
 }

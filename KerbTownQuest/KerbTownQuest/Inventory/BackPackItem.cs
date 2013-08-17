@@ -17,14 +17,15 @@ namespace KerbTownQuest.Inventory
         public float maxUnits;
         public float weightPerUnit;
         public bool stackable;
-        public bool belongsTo; //is this stolen goods, or does it belongs to this kerbal?
+        public string belongsTo; //is this stolen goods, or does it belongs to this kerbal?
         public string questTag; //used to separate this item from similar items for quests
         public string iconName; // a square image for the inventory grid
         public string meshName = string.Empty;
         public GameObject mesh;
         public bool removable = true;
         public string defaultModelName = "bagOfJunk";
-        public static string modelRootURL = "FShousingProgram/models/";
+        public static string modelRootURL = KerbTownQuestLogic.folderName +  "/models/";
+        public static string iconRootURL = KerbTownQuestLogic.folderName + "/icons/";
 
         public enum ItemType
         {
@@ -33,6 +34,9 @@ namespace KerbTownQuest.Inventory
             partResource, //fuel
             part,
             vessel,
+            equippable,
+            usable,
+            error,
         }
 
         public ItemType itemType = ItemType.undefined;
@@ -129,6 +133,82 @@ namespace KerbTownQuest.Inventory
             {
                 Debug.Log("Spawn item: mesh is null");
             }
+        }
+
+        public ConfigNode getNode()
+        {
+            ConfigNode node = new ConfigNode("item");
+            node.AddValue("name", name);
+            node.AddValue("displayName", displayName);
+            node.AddValue("itemSlots", itemSlots);
+            node.AddValue("baseWeight", baseWeight);
+            node.AddValue("units", units);
+            node.AddValue("maxUnits", maxUnits);
+            node.AddValue("weightPerUnit", weightPerUnit);
+            node.AddValue("stackable", stackable);
+            node.AddValue("belongsTo", belongsTo);
+            node.AddValue("questTag", questTag);
+            node.AddValue("iconName", iconName);
+            node.AddValue("meshName", meshName);
+            node.AddValue("removable", removable);
+            node.AddValue("itemType", itemType);
+           
+            return node;
+        }
+
+        public void setValues(ConfigNode node)
+        {        
+            name = node.GetValue("name");
+            displayName = node.GetValue("displayName");
+            int.TryParse(node.GetValue("itemSlots"), out itemSlots);
+            float.TryParse(node.GetValue("baseWeight"), out baseWeight);
+            float.TryParse(node.GetValue("units"), out units);
+            float.TryParse(node.GetValue("maxUnits"), out maxUnits);
+            float.TryParse(node.GetValue("weightPerUnit"), out weightPerUnit);
+
+            
+            stackable = valueToBool(node.GetValue("stackable"));
+
+            belongsTo = node.GetValue("belongsTo");
+            questTag = node.GetValue("questTag");
+            iconName = node.GetValue("iconName");
+            meshName = node.GetValue("meshName");
+            removable = valueToBool(node.GetValue("removable"));
+
+            itemType = stringToItemType(node.GetValue("itemType"));
+            // tryparse doesn't exist in KSP! whyyy?
+            //if (!Enum.TryParse(node.GetValue("itemType"), out itemType))
+            //{
+            //    itemType = ItemType.undefined;
+            //}
+        }
+
+        private bool valueToBool(string inValue)
+        {
+            bool result = false;
+            try
+            {
+                result = Boolean.Parse(inValue);
+            }
+            catch
+            {
+                Debug.Log("can't parse " + inValue);
+            }
+            return result;
+        }
+
+        private ItemType stringToItemType(string inValue)
+        {
+            if (inValue == ItemType.consumable.ToString()) return ItemType.consumable;
+            if (inValue == ItemType.equippable.ToString()) return ItemType.equippable;
+            if (inValue == ItemType.part.ToString()) return ItemType.part;
+            if (inValue == ItemType.partResource.ToString()) return ItemType.partResource;
+            if (inValue == ItemType.usable.ToString()) return ItemType.usable;
+            if (inValue == ItemType.vessel.ToString()) return ItemType.vessel;
+            if (inValue == ItemType.undefined.ToString()) return ItemType.undefined;
+
+            Debug.Log("KTQ backpackitem: unhandled enum value");
+            return ItemType.error;
         }
     }
 }

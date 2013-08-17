@@ -12,6 +12,8 @@ namespace KerbTownQuest
     [KSPAddon(KSPAddon.Startup.Flight, false)]
     public class KerbTownQuestLogic : MonoBehaviour
     {
+        public static string folderName = "FShousingProgram";
+        public static string modulePath = "GameData/" + folderName;          
         private KTKerbalRoster _kerbalRoster = new KTKerbalRoster();
         private ItemLibrary _itemLibrary = new ItemLibrary();
         private QuestLog _questLog = new QuestLog();
@@ -26,7 +28,9 @@ namespace KerbTownQuest
 
         public void Awake()
         {
+            Debug.Log("KTQL: Awake");
             Instance = this;
+            OnLoad();
         }
 
         public static KTKerbalRoster kerbalRoster
@@ -47,6 +51,28 @@ namespace KerbTownQuest
             set { Instance._activeKerbal = value; }
         }
 
+        public void OnSave()
+        {
+            Debug.Log("KTQL: OnSave");
+            //itemLibrary.OnSave(); // only save for testing purposes. The library should be a fixed file
+        }
+
+        public void OnLoad()
+        {
+            Debug.Log("KTQL: OnLoad");
+            itemLibrary.OnLoad();
+        }
+
+        public void OnDestroy()
+        {
+            Debug.Log("KTQL: OnDestroy");
+            OnSave();
+        }
+
+        public void OnLevelWasLoaded(int level)
+        {
+            Debug.Log("KTQL: OnLevelWasLoaded " + level);
+        }
 
         private bool isActiveVesselKerbal()
         {
@@ -76,11 +102,11 @@ namespace KerbTownQuest
                         activeKerbal = kerbalRoster.AddbyName(kerbalName);
 
                         // test:
-                        activeKerbal.backpack.AddItem(KerbTownQuestLogic.itemLibrary.items["Wrench"]);
-                        activeKerbal.backpack.AddItem(KerbTownQuestLogic.itemLibrary.items["Money"]);
-                        activeKerbal.backpack.AddItem(KerbTownQuestLogic.itemLibrary.items["fakeBeard"]);
-                        activeKerbal.backpack.AddItem(KerbTownQuestLogic.itemLibrary.items["Jetpack"]);
-                        activeKerbal.backpack.AddItem(KerbTownQuestLogic.itemLibrary.items["bomb"]);
+                        for (int i = 0; i < itemLibrary.items.Count; i++)
+                        {
+                            activeKerbal.backpack.AddItem(itemLibrary.items.ElementAt(i).Value);
+                        }
+
 
                         activeKerbal.transform = activeVessel.transform;
                     }

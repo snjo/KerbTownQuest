@@ -17,9 +17,9 @@ namespace KerbTownQuest.Inventory
         public Vector2 buttonSize = new Vector2(64f, 32f);
         public KTKerbal activeKerbal;
         public bool visible;        
-        public IntVector2 gridSize = new IntVector2(6, 10);        
-        public string iconRootURL = "FShousingProgram/icons/";
-        public string modelRootURL = "FShousingProgram/models/";
+        public IntVector2 gridSize = new IntVector2(6, 10);
+        private string iconRootURL = BackPackItem.iconRootURL;
+        private string modelRootURL = BackPackItem.modelRootURL;
         public float dropDistance = 1f;
 
         private GUI.GUIPopup popup;
