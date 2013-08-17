@@ -18,13 +18,13 @@ namespace KerbTownQuest.Inventory
 
         public void tryPickup()
         {
-            Debug.Log("Picking up item");
+            //Debug.Log("Picking up item");
             List<BackPackItem> removalList = new List<BackPackItem>();
             foreach (BackPackItem item in items)
             {
                 if (KerbTownQuestLogic.activeKerbal.backpack.AddItem(item))
                 {
-                    Debug.Log("pickup succesful: " + item.displayName);
+                    //Debug.Log("pickup succesful: " + item.displayName);
                     removalList.Add(item);
                 }
                 else
@@ -44,7 +44,7 @@ namespace KerbTownQuest.Inventory
 
         public void destroyPickup()
         {
-            Debug.Log("Destroying pickup");
+            //Debug.Log("Destroying pickup");
             Destroy(this.gameObject, 0.05f);
         }
 

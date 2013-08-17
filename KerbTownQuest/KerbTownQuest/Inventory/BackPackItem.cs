@@ -87,10 +87,10 @@ namespace KerbTownQuest.Inventory
         {
             if (meshName == string.Empty)
             {
-                Debug.Log("loading default model " + modelRootURL + defaultModelName);
+                //Debug.Log("loading default model " + modelRootURL + defaultModelName);
                 if (GameDatabase.Instance.ExistsModel(modelRootURL + defaultModelName))
                 {
-                    Debug.Log("found default model");
+                    //Debug.Log("found default model");
                     mesh = GameDatabase.Instance.GetModel(modelRootURL + defaultModelName);
                 }
                 else
@@ -100,7 +100,7 @@ namespace KerbTownQuest.Inventory
             }
             else
             {
-                Debug.Log("loading model " + meshName);
+                //Debug.Log("loading model " + meshName);
                 if (GameDatabase.Instance.ExistsModel(meshName))
                 {
                     mesh = GameDatabase.Instance.GetModel(meshName);

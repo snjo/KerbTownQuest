@@ -80,7 +80,7 @@ namespace KerbTownQuest.Inventory
             dropLocation.rotation = activeKerbal.transform.rotation;
             //dropLocation.LookAt(TranformTools.WorldUp(FlightGlobals.ActiveVessel));
             dropLocation.position += (activeKerbal.transform.forward + (TranformTools.WorldUp(FlightGlobals.ActiveVessel) * 0.5f)).normalized * dropDistance;
-            Debug.Log("dropping at: " + dropLocation.position + ", kerbal: " + activeKerbal.transform.position + " , forward: " + dropLocation.forward.normalized * dropDistance);
+            //Debug.Log("dropping at: " + dropLocation.position + ", kerbal: " + activeKerbal.transform.position + " , forward: " + dropLocation.forward.normalized * dropDistance);
             activeKerbal.backpack.DropItem(tile.item, dropLocation);
         }
 
@@ -125,7 +125,7 @@ namespace KerbTownQuest.Inventory
         private void setButtonMode(string newMode)
         {
             buttonMode = newMode;
-            Debug.Log("Button mode set to " + newMode);
+            //Debug.Log("Button mode set to " + newMode);
         }
 
         private void createButtons()

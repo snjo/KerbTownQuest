@@ -28,7 +28,7 @@ namespace KerbTownQuest
 
         public void Awake()
         {
-            Debug.Log("KTQL: Awake");
+            //Debug.Log("KTQL: Awake");
             Instance = this;
             OnLoad();
         }
@@ -53,25 +53,20 @@ namespace KerbTownQuest
 
         public void OnSave()
         {
-            Debug.Log("KTQL: OnSave");
+            //Debug.Log("KTQL: OnSave");
             //itemLibrary.OnSave(); // only save for testing purposes. The library should be a fixed file
         }
 
         public void OnLoad()
         {
-            Debug.Log("KTQL: OnLoad");
+            //Debug.Log("KTQL: OnLoad");
             itemLibrary.OnLoad();
         }
 
         public void OnDestroy()
         {
-            Debug.Log("KTQL: OnDestroy");
+            //Debug.Log("KTQL: OnDestroy");
             OnSave();
-        }
-
-        public void OnLevelWasLoaded(int level)
-        {
-            Debug.Log("KTQL: OnLevelWasLoaded " + level);
         }
 
         private bool isActiveVesselKerbal()
@@ -112,7 +107,7 @@ namespace KerbTownQuest
                     }
                     inventoryGUI.createInventoryGrid(activeKerbal.backpack);
                 }                
-                Debug.Log("KTQlogic: Vessel is Kerbal: " + activeVesselIsKerbal);
+                //Debug.Log("KTQlogic: Vessel is Kerbal: " + activeVesselIsKerbal);
             }
         }
 
@@ -140,7 +135,7 @@ namespace KerbTownQuest
         {
             if (Input.GetKeyDown(KeyCode.PageUp))
             {
-                Debug.Log("Dropping bag");
+                //Debug.Log("Dropping bag");
                 activeKerbal.backpack.items[0].findModel();
                 activeKerbal.backpack.items[0].Spawn(activeVessel.transform);
             }

@@ -59,12 +59,12 @@ namespace KerbTownQuest
             {
                 if (popup != null)
                     popup.popup();
-                else
-                    Debug.Log("popup is null");
+                //else
+                //    Debug.Log("popup is null");
             }
             else
             {
-                Debug.Log("hotBar is hidden");
+                //Debug.Log("hotBar is hidden");
             }
         }
     }

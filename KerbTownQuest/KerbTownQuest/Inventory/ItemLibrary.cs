@@ -32,7 +32,7 @@ namespace KerbTownQuest.Inventory
 
         public void OnSave()
         {
-            Debug.Log("KTQ: itemLibrary OnSave");
+            //Debug.Log("KTQ: itemLibrary OnSave");
             ConfigNode libraryNode = new ConfigNode(nodeName);
             foreach (KeyValuePair<string, BackPackItem> entry in items)
             {
@@ -46,7 +46,7 @@ namespace KerbTownQuest.Inventory
 
         public void OnLoad()
         {
-            Debug.Log("KTQ: itemLibrary OnLoad");
+            //Debug.Log("KTQ: itemLibrary OnLoad");
             items = new Dictionary<string, BackPackItem>();
             ConfigNode libraryNode = ConfigNode.Load(KerbTownQuestLogic.modulePath + "/Configs/inv.cfg");
             if (libraryNode != null)
