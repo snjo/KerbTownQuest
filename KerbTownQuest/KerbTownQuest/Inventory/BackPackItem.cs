@@ -25,8 +25,8 @@ namespace KerbTownQuest.Inventory
         public GameObject mesh;
         public bool removable = true;
         public string defaultModelName = "bagOfJunk";
-        public static string modelRootURL = KerbTownQuestLogic.folderName +  "/models/";
-        public static string iconRootURL = KerbTownQuestLogic.folderName + "/icons/";
+        public static string modelRootURL = KerbTownQuestLogic.folderName +  "models/";
+        public static string iconRootURL = KerbTownQuestLogic.folderName + "icons/";
 
         public enum ItemType
         {

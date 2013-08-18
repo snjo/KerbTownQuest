@@ -19,5 +19,19 @@ namespace KerbTownQuest
         public int money;
         public Backpack backpack = new Backpack();
         //public QuestLog questLog = new QuestLog();
+
+        public ConfigNode getNode()
+        {
+            ConfigNode node = new ConfigNode("kerbal");
+
+            node.AddValue("name", name);
+            node.AddValue("health", health);
+            node.AddValue("XP", XP);
+            node.AddValue("level", level);
+            node.AddValue("money", money);
+
+            node.AddNode(backpack.getNode());
+            return node;
+        }
     }
 }

@@ -70,5 +70,22 @@ namespace KerbTownQuest.Inventory
             }
             return false;
         }
+
+        public ConfigNode getNode()
+        {
+            ConfigNode node = new ConfigNode("backpack");
+
+            node.AddValue("displayName", displayName);
+            node.AddValue("weightCapacity", weightCapacity);
+            node.AddValue("weightUsed", weightUsed);
+            node.AddValue("itemCapacity", itemCapacity);
+            node.AddValue("itemSlotsUsed", itemSlotsUsed);
+        
+            foreach (BackPackItem item in items)
+            {
+                node.AddNode(item.getNode());
+            }
+            return node;
+        }
     }
 }

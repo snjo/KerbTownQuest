@@ -40,15 +40,16 @@ namespace KerbTownQuest.Inventory
                 //itemNode.AddValue("first", entry.Value.displayName);
                 libraryNode.AddNode(entry.Value.getNode());
             }
-            
-            libraryNode.Save(KerbTownQuestLogic.modulePath + "/Configs/inv.cfg", "KerbTown Inventory Item Library. Will only be loaded, not written to by the game.");            
+
+            libraryNode.Save(KerbTownQuestLogic.configPath + nodeName + ".cfg", "KerbTown Inventory Item Library. Will only be loaded, not written to by the game.");            
         }
 
         public void OnLoad()
         {
-            //Debug.Log("KTQ: itemLibrary OnLoad");
+            string configPath = KerbTownQuestLogic.configPath + nodeName + ".cfg";
+            Debug.Log("KTQ: itemLibrary OnLoad: " + configPath);
             items = new Dictionary<string, BackPackItem>();
-            ConfigNode libraryNode = ConfigNode.Load(KerbTownQuestLogic.modulePath + "/Configs/inv.cfg");
+            ConfigNode libraryNode = ConfigNode.Load(configPath);
             if (libraryNode != null)
             {
                 ConfigNode[] itemNodes = libraryNode.GetNodes("item");
@@ -58,10 +59,11 @@ namespace KerbTownQuest.Inventory
                     newItem.setValues(itemNode);
                     items.Add(newItem.name, newItem);
                 }
+                Debug.Log("Filled itemLibrary with " + items.Count + " items");
             }
             else
             {
-                Debug.Log("KTQ: libraryNode is null, have you put the mode in the wrong folder? Tried loading: " + KerbTownQuestLogic.modulePath + "/Configs/inv.cfg");
+                Debug.Log("KTQ: libraryNode is null, have you put the mode in the wrong folder? Tried loading: " + configPath);
             }
         }
     }

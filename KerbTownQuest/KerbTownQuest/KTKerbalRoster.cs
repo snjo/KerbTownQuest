@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace KerbTownQuest
 {
     public class KTKerbalRoster
     {
         public List<KTKerbal> kerbals = new List<KTKerbal>();
+        public string nodeName = "KTKerbalRoster";
 
         public KTKerbal findKerbalByName(string kerbalName)
         {
@@ -50,10 +52,34 @@ namespace KerbTownQuest
 
         public void OnSave()
         {
+            Debug.Log("KTQ: KerbalRoster OnSave");
+            ConfigNode rosterNode = new ConfigNode(nodeName);
+            foreach (KTKerbal kerbal in kerbals)
+            {                
+                rosterNode.AddNode(kerbal.getNode());
+            }
+
+            rosterNode.Save(KerbTownQuestLogic.Instance.savePath + "KTKerbalRoster.cfg");
         }
 
         public void OnLoad()
-        {
+        {            
+            //items = new Dictionary<string, BackPackItem>();
+            //ConfigNode libraryNode = ConfigNode.Load(KerbTownQuestLogic.Instance.savePath + "KTKerbalRoster.cfg");
+            //if (libraryNode != null)
+            //{
+            //    ConfigNode[] itemNodes = libraryNode.GetNodes("item");
+            //    foreach (ConfigNode itemNode in itemNodes)
+            //    {
+            //        BackPackItem newItem = new BackPackItem();
+            //        newItem.setValues(itemNode);
+            //        items.Add(newItem.name, newItem);
+            //    }
+            //}
+            //else
+            //{
+            //    Debug.Log("KTQ: libraryNode is null, have you put the mode in the wrong folder? Tried loading: " + KerbTownQuestLogic.modulePath + "/Configs/inv.cfg");
+            //}
         }
     }
 }

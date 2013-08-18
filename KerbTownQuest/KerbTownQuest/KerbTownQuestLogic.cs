@@ -12,8 +12,9 @@ namespace KerbTownQuest
     [KSPAddon(KSPAddon.Startup.Flight, false)]
     public class KerbTownQuestLogic : MonoBehaviour
     {
-        public static string folderName = "FShousingProgram";
-        public static string modulePath = "GameData/" + folderName;          
+        public static string folderName = "FShousingProgram/";
+        public static string modulePath = "GameData/" + folderName;
+        public static string configPath = modulePath + "Configs/";
         private KTKerbalRoster _kerbalRoster = new KTKerbalRoster();
         private ItemLibrary _itemLibrary = new ItemLibrary();
         private QuestLog _questLog = new QuestLog();
@@ -55,6 +56,7 @@ namespace KerbTownQuest
         {
             //Debug.Log("KTQL: OnSave");
             //itemLibrary.OnSave(); // only save for testing purposes. The library should be a fixed file
+            kerbalRoster.OnSave();
         }
 
         public void OnLoad()
@@ -67,6 +69,14 @@ namespace KerbTownQuest
         {
             //Debug.Log("KTQL: OnDestroy");
             OnSave();
+        }
+
+        public string savePath
+        {
+            get
+            {
+                return string.Format(KSPUtil.ApplicationRootPath + "saves/" + HighLogic.SaveFolder + "/");
+            }
         }
 
         private bool isActiveVesselKerbal()
