@@ -58,18 +58,30 @@ namespace KerbTownQuest.Inventory
 
         public void tileClick(InventoryTile tile)
         {            
-            Debug.Log("tile: " + tile.item.displayName + " / " + tile.item.name );
+            //Debug.Log("tile: " + tile.item.displayName + " / " + tile.item.name );
             switch (buttonMode)
             {
                 case "drop":
                     dropItem(tile);                  
                     break;
                 case "use":
+                    useItem(tile);
                     Debug.Log("use item " + tile.item.displayName);
                     break;
                 default:
                     Debug.Log("no button mode set");
                     break;
+            }
+        }
+
+        private void useItem(InventoryTile tile)
+        {
+            if (tile.item.itemType == BackPackItem.ItemType.equippable)
+            {
+                if (tile.item.equippableItem != null)
+                {
+                    Debug.Log("Equipping " + tile.item.displayName + " to " + tile.item.equippableItem.slot);
+                }
             }
         }
 

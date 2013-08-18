@@ -54,6 +54,7 @@
     <Compile Include="GUI\GUIPopup.cs" />
     <Compile Include="GUI\GUIwindowID.cs" />
     <Compile Include="Inventory\Container.cs" />
+    <Compile Include="Inventory\EquippableItem.cs" />
     <Compile Include="KerbTownQuestLogic.cs" />
     <Compile Include="Util\IntVector.cs" />
     <Compile Include="Inventory\InventoryGUI.cs" />

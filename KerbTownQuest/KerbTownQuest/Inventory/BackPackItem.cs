@@ -17,6 +17,7 @@ namespace KerbTownQuest.Inventory
         public float maxUnits;
         public float weightPerUnit;
         public bool stackable;
+        public EquippableItem equippableItem;
         public string belongsTo; //is this stolen goods, or does it belongs to this kerbal?
         public string questTag; //used to separate this item from similar items for quests
         public string iconName; // a square image for the inventory grid
@@ -152,6 +153,11 @@ namespace KerbTownQuest.Inventory
             node.AddValue("meshName", meshName);
             node.AddValue("removable", removable);
             node.AddValue("itemType", itemType);
+
+            if (equippableItem != null)
+            {
+                node.AddNode(equippableItem.getNode());
+            }
            
             return node;
         }
@@ -165,7 +171,6 @@ namespace KerbTownQuest.Inventory
             float.TryParse(node.GetValue("units"), out units);
             float.TryParse(node.GetValue("maxUnits"), out maxUnits);
             float.TryParse(node.GetValue("weightPerUnit"), out weightPerUnit);
-
             
             stackable = valueToBool(node.GetValue("stackable"));
 
@@ -180,7 +185,15 @@ namespace KerbTownQuest.Inventory
             //if (!Enum.TryParse(node.GetValue("itemType"), out itemType))
             //{
             //    itemType = ItemType.undefined;
-            //}
+            //}            
+
+            ConfigNode equippableNode = node.GetNode("equippableItem");
+            if (equippableNode != null)
+            {
+                equippableItem = new EquippableItem();
+                equippableItem.name = equippableNode.GetValue("name");
+                equippableItem.slot = equippableNode.GetValue("slot");
+            }
         }
 
         private bool valueToBool(string inValue)
