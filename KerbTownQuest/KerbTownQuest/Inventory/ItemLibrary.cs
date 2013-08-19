@@ -30,7 +30,7 @@ namespace KerbTownQuest.Inventory
             items.Add("Money", money);*/
         }        
 
-        public void OnSave()
+        public void Save()
         {
             //Debug.Log("KTQ: itemLibrary OnSave");
             ConfigNode libraryNode = new ConfigNode(nodeName);
@@ -44,7 +44,7 @@ namespace KerbTownQuest.Inventory
             libraryNode.Save(KerbTownQuestLogic.configPath + nodeName + ".cfg", "KerbTown Inventory Item Library. Will only be loaded, not written to by the game.");            
         }
 
-        public void OnLoad()
+        public void Load()
         {
             string configPath = KerbTownQuestLogic.configPath + nodeName + ".cfg";
             Debug.Log("KTQ: itemLibrary OnLoad: " + configPath);

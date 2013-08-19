@@ -27,12 +27,7 @@ namespace KerbTownQuest
 
         public static KerbTownQuestLogic Instance = null;
 
-        public void Awake()
-        {
-            //Debug.Log("KTQL: Awake");
-            Instance = this;
-            OnLoad();
-        }
+        
 
         public static KTKerbalRoster kerbalRoster
         {
@@ -52,23 +47,25 @@ namespace KerbTownQuest
             set { Instance._activeKerbal = value; }
         }
 
-        public void OnSave()
+        public void OnSave(Game data)
         {
-            //Debug.Log("KTQL: OnSave");
+            Debug.Log("KTQuestLogic: OnSave");
             //itemLibrary.OnSave(); // only save for testing purposes. The library should be a fixed file
-            kerbalRoster.OnSave();
+            kerbalRoster.Save();
         }
 
-        public void OnLoad()
+        public void OnLoad(Game data)
         {
-            //Debug.Log("KTQL: OnLoad");
-            itemLibrary.OnLoad();
+            Debug.Log("KTQuestLogic: OnLoad");
+            itemLibrary.Load();
+            kerbalRoster.Load();
         }
 
         public void OnDestroy()
         {
             //Debug.Log("KTQL: OnDestroy");
-            OnSave();
+            GameEvents.onGameStateSaved.Remove(OnSave);
+            GameEvents.onGameStateCreated.Remove(OnLoad);
         }
 
         public string savePath
@@ -107,10 +104,11 @@ namespace KerbTownQuest
                         activeKerbal = kerbalRoster.AddbyName(kerbalName);
 
                         // test:
-                        for (int i = 0; i < itemLibrary.items.Count; i++)
-                        {
-                            activeKerbal.backpack.AddItem(itemLibrary.items.ElementAt(i).Value);
-                        }
+                        activeKerbal.backpack.AddItem(itemLibrary.items["Money"]);
+                        //for (int i = 0; i < itemLibrary.items.Count; i++)
+                        //{
+                        //    activeKerbal.backpack.AddItem(itemLibrary.items.ElementAt(i).Value);
+                        //}
 
 
                         activeKerbal.transform = activeVessel.transform;
@@ -119,6 +117,15 @@ namespace KerbTownQuest
                 }                
                 //Debug.Log("KTQlogic: Vessel is Kerbal: " + activeVesselIsKerbal);
             }
+        }
+
+        public void Awake()
+        {
+            //Debug.Log("KTQL: Awake");
+            Instance = this;
+            GameEvents.onGameStateSaved.Add(OnSave);
+            GameEvents.onGameStateCreated.Add(OnLoad);
+            //OnLoad();
         }
 
         public void Start()

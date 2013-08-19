@@ -33,5 +33,20 @@ namespace KerbTownQuest
             node.AddNode(backpack.getNode());
             return node;
         }
+
+        public void setValues(ConfigNode node)
+        {
+            name = node.GetValue("name");
+            float.TryParse(node.GetValue("health"), out health);
+            int.TryParse(node.GetValue("XP"), out XP);
+            int.TryParse(node.GetValue("level"), out level);
+            int.TryParse(node.GetValue("money"), out money);
+            ConfigNode backpackNode = node.GetNode("backpack");
+            if (backpackNode != null)
+            {
+                backpack.setValues(backpackNode);
+            }
+
+        }
     }
 }

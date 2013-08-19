@@ -15,15 +15,28 @@ namespace KerbTownQuest.Inventory
         public float weightCapacity = 100f;
         public float weightUsed = 0f;
         public int itemCapacity = 10;
-        public int itemSlotsUsed = 0;
+        //public int itemSlotsUsed = 0;
         public bool contentsHaveChanged = false;
+
+        public int itemSlotsUsed
+        {
+            get
+            {
+                int slotsUsed = 0;
+                foreach (BackPackItem item in items)
+                {
+                    slotsUsed += item.itemSlots;
+                }
+                return slotsUsed;
+            }
+        }
 
         public bool AddItem(BackPackItem item)
         {
             if (itemSlotsUsed + item.itemSlots <= itemCapacity && weightUsed + item.totalWeight <= weightCapacity)
             {
                 items.Add(item);
-                itemSlotsUsed += item.itemSlots;
+                //itemSlotsUsed += item.itemSlots;
                 weightUsed += item.totalWeight;
                 contentsHaveChanged = true;
                 return true;
@@ -37,7 +50,7 @@ namespace KerbTownQuest.Inventory
             if (items.Count > ID)
             {
                 weightUsed -= items[ID].totalWeight;
-                itemSlotsUsed -= items[ID].itemSlots;
+                //itemSlotsUsed -= items[ID].itemSlots;
                 items.RemoveAt(ID);
                 contentsHaveChanged = true;
                 return true;
@@ -51,7 +64,7 @@ namespace KerbTownQuest.Inventory
             if (items.Contains(item))
             {
                 weightUsed -= item.totalWeight;
-                itemSlotsUsed -= item.itemSlots;
+                //itemSlotsUsed -= item.itemSlots;
                 items.Remove(item);
                 contentsHaveChanged = true;
                 return true;
@@ -79,13 +92,29 @@ namespace KerbTownQuest.Inventory
             node.AddValue("weightCapacity", weightCapacity);
             node.AddValue("weightUsed", weightUsed);
             node.AddValue("itemCapacity", itemCapacity);
-            node.AddValue("itemSlotsUsed", itemSlotsUsed);
+            //node.AddValue("itemSlotsUsed", itemSlotsUsed);
         
             foreach (BackPackItem item in items)
             {
                 node.AddNode(item.getNode());
             }
             return node;
+        }
+
+        public void setValues(ConfigNode node)
+        {
+            displayName = node.GetValue("displayName");
+            float.TryParse(node.GetValue("weightCapacity"), out weightCapacity);
+            float.TryParse(node.GetValue("weightUsed"), out weightUsed);
+            int.TryParse(node.GetValue("itemCapacity"), out itemCapacity);
+
+            ConfigNode[] itemNodes = node.GetNodes("item");
+            foreach (ConfigNode itemNode in itemNodes)
+            {
+                BackPackItem newItem = new BackPackItem();
+                newItem.setValues(itemNode);
+                items.Add(newItem);
+            }
         }
     }
 }

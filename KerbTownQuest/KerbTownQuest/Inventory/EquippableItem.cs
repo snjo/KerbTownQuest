@@ -15,6 +15,7 @@ namespace KerbTownQuest.Inventory
         {
             ConfigNode node = new ConfigNode("equippableItem");
             node.AddValue("name", name);
+            node.AddValue("slot", slot);
             return node;
         }
 

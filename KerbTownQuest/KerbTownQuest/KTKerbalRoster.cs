@@ -50,36 +50,35 @@ namespace KerbTownQuest
             }
         }
 
-        public void OnSave()
+        public void Save()
         {
-            Debug.Log("KTQ: KerbalRoster OnSave");
+            //Debug.Log("KTQ: KerbalRoster OnSave");
             ConfigNode rosterNode = new ConfigNode(nodeName);
             foreach (KTKerbal kerbal in kerbals)
             {                
                 rosterNode.AddNode(kerbal.getNode());
             }
 
-            rosterNode.Save(KerbTownQuestLogic.Instance.savePath + "KTKerbalRoster.cfg");
+            rosterNode.Save(KerbTownQuestLogic.Instance.savePath + nodeName + ".cfg");
         }
 
-        public void OnLoad()
-        {            
-            //items = new Dictionary<string, BackPackItem>();
-            //ConfigNode libraryNode = ConfigNode.Load(KerbTownQuestLogic.Instance.savePath + "KTKerbalRoster.cfg");
-            //if (libraryNode != null)
-            //{
-            //    ConfigNode[] itemNodes = libraryNode.GetNodes("item");
-            //    foreach (ConfigNode itemNode in itemNodes)
-            //    {
-            //        BackPackItem newItem = new BackPackItem();
-            //        newItem.setValues(itemNode);
-            //        items.Add(newItem.name, newItem);
-            //    }
-            //}
-            //else
-            //{
-            //    Debug.Log("KTQ: libraryNode is null, have you put the mode in the wrong folder? Tried loading: " + KerbTownQuestLogic.modulePath + "/Configs/inv.cfg");
-            //}
+        public void Load()
+        {
+            ConfigNode rosterNode = ConfigNode.Load(KerbTownQuestLogic.Instance.savePath + nodeName + ".cfg");
+            if (rosterNode != null)
+            {
+                ConfigNode[] kerbalNodes = rosterNode.GetNodes("kerbal");
+                foreach (ConfigNode kerbalNode in kerbalNodes)
+                {
+                    KTKerbal newKerbal = new KTKerbal();
+                    newKerbal.setValues(kerbalNode);
+                    kerbals.Add(newKerbal);
+                }
+            }
+            else
+            {
+                Debug.Log("KTQ: rosterNode is null, using empty roster (Tried loading: " + KerbTownQuestLogic.Instance.savePath + nodeName + ".cfg");
+            }
         }
     }
 }
