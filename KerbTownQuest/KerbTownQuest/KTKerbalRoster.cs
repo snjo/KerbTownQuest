@@ -54,25 +54,41 @@ namespace KerbTownQuest
         {
             //Debug.Log("KTQ: KerbalRoster OnSave");
             ConfigNode rosterNode = new ConfigNode(nodeName);
+            Debug.Log("saving roster, kerbals: " + kerbals.Count);
             foreach (KTKerbal kerbal in kerbals)
-            {                
+            {
+                Debug.Log("adding kerbal: " + kerbal.name);
                 rosterNode.AddNode(kerbal.getNode());
-            }
-
+            }            
             rosterNode.Save(KerbTownQuestLogic.Instance.savePath + nodeName + ".cfg");
         }
 
         public void Load()
         {
-            ConfigNode rosterNode = ConfigNode.Load(KerbTownQuestLogic.Instance.savePath + nodeName + ".cfg");
-            if (rosterNode != null)
+            kerbals = new List<KTKerbal>();
+            Debug.Log("loading roster: " + KerbTownQuestLogic.Instance.savePath + nodeName + ".cfg");
+            bool rosterFileError = false;
+            ConfigNode rosterNode = new ConfigNode();
+            try
             {
+                rosterNode = ConfigNode.Load(KerbTownQuestLogic.Instance.savePath + nodeName + ".cfg");
+            }
+            catch
+            {
+                rosterFileError = true;
+                Debug.Log("Roster file read error");
+            }
+            if (rosterNode != null && !rosterFileError)
+            {
+                Debug.Log("roster not null");
                 ConfigNode[] kerbalNodes = rosterNode.GetNodes("kerbal");
+                Debug.Log("loading roster, kerbals: " + kerbalNodes.Length);
                 foreach (ConfigNode kerbalNode in kerbalNodes)
-                {
+                {                    
                     KTKerbal newKerbal = new KTKerbal();
                     newKerbal.setValues(kerbalNode);
                     kerbals.Add(newKerbal);
+                    Debug.Log("loading kerbal: " + newKerbal.name);
                 }
             }
             else

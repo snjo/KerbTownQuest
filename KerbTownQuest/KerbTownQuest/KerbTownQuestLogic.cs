@@ -24,6 +24,7 @@ namespace KerbTownQuest
         private Vessel activeVessel;
         private bool activeVesselIsKerbal;
         private string kerbalName;
+        private bool nodesLoaded = false;
 
         public static KerbTownQuestLogic Instance = null;
 
@@ -31,11 +32,11 @@ namespace KerbTownQuest
 
         public static KTKerbalRoster kerbalRoster
         {
-            get { return Instance._kerbalRoster; }
+            get { return Instance._kerbalRoster; }            
         }
         public static ItemLibrary itemLibrary
         {
-            get { return Instance._itemLibrary; }
+            get { return Instance._itemLibrary; }            
         }
         public static QuestLog questLog
         {
@@ -51,14 +52,15 @@ namespace KerbTownQuest
         {
             Debug.Log("KTQuestLogic: OnSave");
             //itemLibrary.OnSave(); // only save for testing purposes. The library should be a fixed file
-            kerbalRoster.Save();
+            _kerbalRoster.Save();
         }
 
         public void OnLoad(Game data)
         {
-            Debug.Log("KTQuestLogic: OnLoad");
-            itemLibrary.Load();
-            kerbalRoster.Load();
+            Debug.Log("KTQuestLogic: OnLoad");            
+            _itemLibrary.Load();
+            _kerbalRoster.Load();
+            nodesLoaded = true;
         }
 
         public void OnDestroy()
@@ -123,6 +125,7 @@ namespace KerbTownQuest
         {
             //Debug.Log("KTQL: Awake");
             Instance = this;
+            nodesLoaded = false;
             GameEvents.onGameStateSaved.Add(OnSave);
             GameEvents.onGameStateCreated.Add(OnLoad);
             //OnLoad();
@@ -131,6 +134,7 @@ namespace KerbTownQuest
         public void Start()
         {
             //Debug.Log("KerbTownQuestLogic: Start");
+            nodesLoaded = false;
             inventoryGUI.OnStart();            
             hotBar.OnStart();
             hotBar.toggleInventory = inventoryGUI.toggleInventory;
@@ -140,10 +144,13 @@ namespace KerbTownQuest
         {
             if (HighLogic.LoadedSceneIsFlight)
             {
-                updateActiveVessel(); // updates the reference in activeVessel, and checks whether it's a kerbal or a craft    
-                if (activeVesselIsKerbal)
+                if (nodesLoaded)
                 {
-                    inventoryGUI.updateGrid();
+                    updateActiveVessel(); // updates the reference in activeVessel, and checks whether it's a kerbal or a craft    
+                    if (activeVesselIsKerbal)
+                    {
+                        inventoryGUI.updateGrid();
+                    }
                 }
             }
         }
