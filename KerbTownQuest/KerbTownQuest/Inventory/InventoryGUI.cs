@@ -212,6 +212,17 @@ namespace KerbTownQuest.Inventory
             }
         }
     }
+
+    public class itemActionDialog
+    {
+        public string displayName = string.Empty;
+        public bool showMenu = false;
+        //public delegate void IDFunction(int ID);
+        //public delegate void ItemFunction(BackPackItem item);        
+        //public IDFunction useFunction;
+        //public IDFunction dropFunction;
+        //public IDFunction giveFunction;
+    }
 }
 
 

@@ -52,7 +52,14 @@ namespace KerbTownQuest
         {
             Debug.Log("KTQuestLogic: OnSave");
             //itemLibrary.OnSave(); // only save for testing purposes. The library should be a fixed file
-            _kerbalRoster.Save();
+            if (nodesLoaded)
+            {
+                _kerbalRoster.Save();
+            }
+            else
+            {
+                Debug.Log("Skipping save, nodes not loaded");
+            }
         }
 
         public void OnLoad(Game data)
