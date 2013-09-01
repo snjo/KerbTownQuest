@@ -164,11 +164,10 @@ namespace KerbTownQuest
 
         public void Update()
         {
-            if (Input.GetKeyDown(KeyCode.PageUp))
+            if (Input.GetKeyDown(KeyCode.End))
             {
                 //Debug.Log("Dropping bag");
-                activeKerbal.backpack.items[0].findModel();
-                activeKerbal.backpack.items[0].Spawn(activeVessel.transform);
+                activeKerbal.backpack.AddItem(itemLibrary.items["Wrench"]);                
             }
         }
 
